@@ -1,0 +1,18 @@
+language: go
+go:
+- 1.11.x
+
+install:
+  - go get -v -d -t github.com/golang/protobuf/...
+  - go get -v -d -t github.com/micro/micro
+  - curl -L https://github.com/google/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip -o /tmp/protoc.zip
+  - unzip /tmp/protoc.zip -d "$HOME"/protoc
+  - mkdir -p "$HOME"/src && ln -s "$HOME"/protoc "$HOME"/src/protobuf
+  - go get -u github.com/golang/protobuf/protoc-gen-go
+  - go get github.com/micro/protoc-gen-micro
+
+env:
+  - PATH=$HOME/protoc/bin:$PATH
+
+script:
+  - protoc --proto_path=. --go_out=plugins=grpc:. audio/audio.proto
