@@ -15,4 +15,5 @@ env:
   - PATH=$HOME/protoc/bin:$PATH
 
 script:
+  
   - protoc --proto_path=. --go_out=plugins=grpc:. audio/audio.proto
